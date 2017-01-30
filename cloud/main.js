@@ -3,7 +3,8 @@ Parse.Cloud.define("getUserSessionToken", function(request, response) {
     //Parse.Cloud.useMasterKey();
 
     var phoneNumber = request.params.phoneNumber;
-
+    console.log(phoneNumber);
+    
     var query = new Parse.Query(Parse.User);
     query.equalTo("phone", phoneNumber);
     query.limit(1);
