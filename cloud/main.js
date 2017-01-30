@@ -13,7 +13,8 @@ Parse.Cloud.define("getUserSessionToken", function(request, response) {
 
     query.first({useMasterKey: true}).then(function(user) {
 	    user.set("password", password);
-	    return user.save();
+	    return user.save({useMasterKey: true});
+	    
 	}).then(function(user){
 	    return Parse.User.logIn(user.get("username"), password);
 	}).then(function(user){
