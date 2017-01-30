@@ -20,7 +20,7 @@ Parse.Cloud.define("getUserSessionToken", function(request, response) {
         console.log(user);
 		
 	    response.success(user.getSessionToken());
-	}).error(function() {
+	}).fail(function() {
         response.error(arguments);
 	});
 
