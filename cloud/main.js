@@ -8,21 +8,22 @@ Parse.Cloud.define("getUserSessionToken", function(request, response) {
     var query = new Parse.Query(Parse.User);
     query.equalTo("phone", phoneNumber);
     query.limit(1);
-    query.find({
-    	useMasterKey: true,
-        success: function(user) {
-        	
-        	console.log(user);
 
-            response.success(user[0].getSessionToken());
-        },
-        error: function(error) {
-        	
-        	console.log(error);
+    var password = "somerandompassword";
 
-            response.error(error.description);
-        }
-    });
+    query.first({useMasterKey: true}).then(function(user) {
+	    user.set("password", password);
+	    return user.save();
+	}).then(function(user){
+	    return Parse.User.logIn(user.get("username"), password);
+	}).then(function(user){
+        console.log(user);
+		
+	    response.success(user.getSessionToken());
+	}).error(function() {
+        response.error(arguments);
+	});
+
 
 });
 
